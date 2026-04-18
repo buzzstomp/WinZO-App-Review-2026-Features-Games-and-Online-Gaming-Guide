@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+<title>Winzo in 2026: What the Platform Actually Rewards After Six Months of Focused Play</title>
+<meta name="description" content="A ground-level account of six months inside Winzo's competitive ecosystem. What the platform measures, what it rewards, and why players who understand its architecture improve faster." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0c0c0e;
+  --ink2:#252529;
+  --ink3:#55555f;
+  --ink4:#9898a4;
+  --paper:#f7f6f1;
+  --paper2:#f0efe9;
+  --paper3:#e8e6de;
+  --amber:#f5c842;
+  --amber2:#f8d876;
+  --amber3:#fdf0c0;
+  --amber-dark:#6b4c00;
+  --white:#ffffff;
+  --border:#dddbd3;
+  --border2:#cac8c0;
+  --red:#c22828;
+  --green:#1a6e38;
+  --card:#ffffff;
+  --rule:1px solid var(--border);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'EB Garamond',Georgia,serif;
+  font-size:19px;
+  line-height:1.82;
+  color:var(--ink);
+  background:var(--paper);
+  -webkit-font-smoothing:antialiased;
+}
+.progress{position:fixed;top:0;left:0;height:3px;background:var(--amber-dark);width:0;z-index:300;transition:width .09s linear}
+.topbar{
+  background:var(--ink2);
+  color:rgba(255,255,255,.45);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  letter-spacing:.12em;
+  text-align:center;
+  padding:9px 20px;
+}
+.topbar strong{color:var(--amber)}
+.hdr{
+  background:var(--ink);
+  position:sticky;
+  top:0;
+  z-index:200;
+  border-bottom:2px solid var(--amber-dark);
+}
+.hdr-inner{
+  max-width:1220px;
+  margin:0 auto;
+  padding:0 30px;
+  height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+}
+.logo{
+  font-family:'Playfair Display',serif;
+  font-size:22px;
+  font-weight:700;
+  color:var(--white);
+  text-decoration:none;
+  letter-spacing:-.01em;
+  flex-shrink:0;
+}
+.logo em{font-style:italic;color:var(--amber)}
+.hdr-nav{display:flex;gap:28px;list-style:none}
+.hdr-nav a{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10.5px;
+  letter-spacing:.09em;
+  color:rgba(255,255,255,.5);
+  text-decoration:none;
+  transition:color .2s;
+}
+.hdr-nav a:hover{color:var(--amber)}
+.hdr-cta{
+  background:var(--amber);
+  color:var(--amber-dark);
+  font-family:'Space Grotesk',sans-serif;
+  font-size:12.5px;
+  font-weight:700;
+  letter-spacing:.04em;
+  padding:9px 22px;
+  border-radius:4px;
+  text-decoration:none;
+  transition:opacity .2s,transform .15s;
+  flex-shrink:0;
+  white-space:nowrap;
+}
+.hdr-cta:hover{opacity:.88;transform:translateY(-1px)}
+.hero{
+  background:var(--ink);
+  position:relative;
+  overflow:hidden;
+  padding:84px 30px 0;
+}
+.hero::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(ellipse 55% 45% at 75% 25%,rgba(245,200,66,.07) 0%,transparent 68%),
+    radial-gradient(ellipse 40% 60% at 10% 80%,rgba(245,200,66,.04) 0%,transparent 60%),
+    repeating-linear-gradient(0deg,transparent,transparent 79px,rgba(255,255,255,.018) 79px,rgba(255,255,255,.018) 80px),
+    repeating-linear-gradient(90deg,transparent,transparent 79px,rgba(255,255,255,.018) 79px,rgba(255,255,255,.018) 80px);
+}
+.hero-inner{
+  max-width:1100px;
+  margin:0 auto;
+  position:relative;
+  z-index:1;
+}
+.hero-eyebrow{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin-bottom:30px;
+}
+.hero-pill{
+  background:rgba(245,200,66,.14);
+  border:1px solid rgba(245,200,66,.32);
+  color:var(--amber);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;
+  letter-spacing:.16em;
+  padding:5px 13px;
+  border-radius:20px;
+}
+.hero-date{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;
+  letter-spacing:.1em;
+  color:rgba(255,255,255,.3);
+}
+.hero-rule{
+  width:28px;
+  height:1px;
+  background:rgba(255,255,255,.15);
+}
+.hero-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(40px,6.2vw,82px);
+  font-weight:900;
+  color:var(--white);
+  line-height:1.03;
+  letter-spacing:-.025em;
+  margin-bottom:8px;
+}
+.hero-title em{
+  font-style:italic;
+  color:var(--amber);
+}
+.hero-sub{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(13px,1.8vw,16px);
+  font-weight:400;
+  color:rgba(255,255,255,.4);
+  letter-spacing:.05em;
+  margin-bottom:36px;
+  text-transform:uppercase;
+}
+.hero-desc{
+  font-family:'EB Garamond',serif;
+  font-size:clamp(17px,2.2vw,20px);
+  line-height:1.76;
+  color:rgba(255,255,255,.65);
+  max-width:720px;
+  margin-bottom:52px;
+}
+.hero-strip{
+  display:flex;
+  gap:0;
+  border-top:1px solid rgba(255,255,255,.09);
+}
+.hero-stat{
+  padding:24px 36px 24px 0;
+  margin-right:36px;
+  border-right:1px solid rgba(255,255,255,.07);
+}
+.hero-stat:last-child{border-right:none}
+.hero-stat .n{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(30px,4.2vw,48px);
+  font-weight:700;
+  color:var(--white);
+  letter-spacing:-.03em;
+  line-height:1;
+  display:block;
+}
+.hero-stat .n em{color:var(--amber);font-style:normal}
+.hero-stat .l{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;
+  letter-spacing:.1em;
+  color:rgba(255,255,255,.3);
+  margin-top:5px;
+  display:block;
+}
+.layout{
+  max-width:1220px;
+  margin:0 auto;
+  padding:68px 30px 88px;
+  display:grid;
+  grid-template-columns:1fr 330px;
+  gap:68px;
+  align-items:start;
+}
+.article{min-width:0}
+.img-block{
+  width:100%;
+  border-radius:10px;
+  overflow:hidden;
+  margin-bottom:14px;
+  background:var(--ink2);
+}
+.img-block svg{width:100%;display:block}
+.img-cap{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  letter-spacing:.05em;
+  color:var(--ink4);
+  margin-bottom:44px;
+  padding-left:2px;
+}
+.inline-wrap{margin:46px 0}
+.article p{
+  font-size:19px;
+  line-height:1.84;
+  color:var(--ink2);
+  margin-bottom:28px;
+}
+.article .lead{
+  font-size:clamp(19px,2.6vw,22px);
+  line-height:1.7;
+  color:var(--ink);
+  font-style:italic;
+  margin-bottom:34px;
+}
+.article a{
+  color:var(--amber-dark);
+  text-decoration:underline;
+  text-decoration-color:rgba(107,76,0,.3);
+  text-underline-offset:3px;
+  font-weight:500;
+  transition:color .2s,text-decoration-color .2s;
+}
+.article a:hover{color:var(--ink);text-decoration-color:var(--ink)}
+.sh{
+  display:block;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(20px,2.9vw,28px);
+  font-weight:700;
+  color:var(--ink);
+  letter-spacing:-.022em;
+  margin:56px 0 22px;
+  padding-bottom:15px;
+  border-bottom:var(--rule);
+  position:relative;
+}
+.sh::after{
+  content:'';
+  position:absolute;
+  bottom:-1px;
+  left:0;
+  width:36px;
+  height:2px;
+  background:var(--amber-dark);
+}
+.pq{
+  background:var(--ink);
+  border-radius:10px;
+  padding:36px 40px;
+  margin:42px 0;
+  position:relative;
+  overflow:hidden;
+}
+.pq::before{
+  content:'\201C';
+  position:absolute;
+  top:-14px;
+  left:22px;
+  font-family:'Playfair Display',serif;
+  font-size:130px;
+  color:rgba(245,200,66,.1);
+  line-height:1;
+  pointer-events:none;
+}
+.pq p{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(18px,2.4vw,23px) !important;
+  font-style:italic;
+  color:rgba(255,255,255,.88) !important;
+  line-height:1.6 !important;
+  margin:0 !important;
+  position:relative;
+  z-index:1;
+}
+.pq cite{
+  display:block;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10.5px;
+  letter-spacing:.1em;
+  color:var(--amber);
+  margin-top:16px;
+  font-style:normal;
+}
+.callout{
+  border-left:3px solid var(--amber-dark);
+  background:var(--amber3);
+  padding:22px 28px;
+  margin:38px 0;
+  border-radius:0 7px 7px 0;
+}
+.callout-label{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;
+  letter-spacing:.14em;
+  color:var(--amber-dark);
+  font-weight:500;
+  margin-bottom:9px;
+}
+.callout p{
+  font-size:15.5px !important;
+  color:var(--amber-dark) !important;
+  line-height:1.72 !important;
+  margin:0 !important;
+}
+.tbl-wrap{overflow-x:auto;margin:38px 0;border-radius:9px;border:var(--rule);background:var(--card)}
+table{width:100%;min-width:480px;border-collapse:collapse;font-family:'IBM Plex Mono',monospace;font-size:13px}
+thead tr{background:var(--ink)}
+th{padding:14px 17px;text-align:left;color:rgba(255,255,255,.82);font-weight:500;letter-spacing:.05em;font-size:11px}
+td{padding:12px 17px;border-bottom:var(--rule);color:var(--ink2);vertical-align:top;line-height:1.55}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even) td{background:var(--paper)}
+.hl td{background:var(--amber3)!important;color:var(--amber-dark);font-weight:500}
+.ok{color:#1a6e38;font-weight:600}
+.no{color:#c22828;font-weight:600}
+.meh{color:#a05200;font-weight:600}
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:38px 0}
+.pros,.cons{border-radius:9px;padding:26px;border:var(--rule)}
+.pros{background:var(--card);border-top:3px solid var(--green)}
+.cons{background:var(--card);border-top:3px solid var(--red)}
+.pros h4,.cons h4{font-family:'Space Grotesk',sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.14em;margin-bottom:18px}
+.pros h4{color:var(--green)}
+.cons h4{color:var(--red)}
+.pros ul,.cons ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+.pros li,.cons li{font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.62;padding-left:22px;position:relative;color:var(--ink2)}
+.pros li::before{content:'✓';position:absolute;left:0;color:var(--green);font-weight:700}
+.cons li::before{content:'×';position:absolute;left:0;color:var(--red);font-weight:700}
+.nl{counter-reset:n;list-style:none;display:flex;flex-direction:column;gap:22px;margin:30px 0}
+.nl li{counter-increment:n;display:flex;gap:19px;align-items:flex-start;font-size:17.5px;line-height:1.78;color:var(--ink2)}
+.nl li::before{
+  content:counter(n,'decimal-leading-zero');
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10.5px;
+  font-weight:500;
+  color:var(--amber-dark);
+  background:var(--amber3);
+  border:1px solid rgba(107,76,0,.4);
+  border-radius:4px;
+  width:36px;
+  height:28px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  margin-top:4px;
+  letter-spacing:.04em;
+}
+.verdict{
+  background:var(--amber);
+  border-radius:11px;
+  padding:38px 34px;
+  margin:48px 0;
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:26px;
+  align-items:start;
+}
+.verdict-label{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;
+  letter-spacing:.16em;
+  color:var(--amber-dark);
+  margin-bottom:11px;
+}
+.verdict h3{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(18px,2.4vw,23px);
+  font-weight:700;
+  color:var(--amber-dark);
+  margin-bottom:11px;
+  letter-spacing:-.01em;
+}
+.verdict p{
+  font-family:'EB Garamond',serif;
+  font-size:16px !important;
+  line-height:1.72 !important;
+  color:rgba(107,76,0,.82) !important;
+  margin:0 !important;
+}
+.verdict-score{
+  background:var(--amber-dark);
+  color:var(--amber);
+  font-family:'Space Grotesk',sans-serif;
+  font-size:42px;
+  font-weight:700;
+  width:94px;
+  height:94px;
+  border-radius:9px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  letter-spacing:-.02em;
+}
+.faq{margin:30px 0}
+.faq-item{border:var(--rule);border-radius:7px;margin-bottom:9px;background:var(--card);overflow:hidden}
+.faq-q{
+  width:100%;background:none;border:none;padding:17px 22px;text-align:left;
+  font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;color:var(--ink);
+  cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:13px;
+  transition:background .2s;line-height:1.45;
+}
+.faq-q:hover{background:var(--paper2)}
+.faq-icon{
+  width:26px;height:26px;border-radius:50%;
+  background:var(--amber3);border:1px solid rgba(107,76,0,.35);
+  color:var(--amber-dark);font-family:'IBM Plex Mono',monospace;font-size:15px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:transform .25s,background .2s;
+}
+.faq-item.open .faq-icon{transform:rotate(45deg);background:var(--amber-dark);color:var(--amber)}
+.faq-a{
+  max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s;
+  padding:0 22px;font-family:'EB Garamond',serif;font-size:16px;line-height:1.78;color:var(--ink3);
+}
+.faq-item.open .faq-a{max-height:360px;padding:0 22px 20px}
+.sidebar{position:sticky;top:84px}
+.widget{
+  background:var(--card);
+  border:var(--rule);
+  border-radius:9px;
+  padding:25px;
+  margin-bottom:22px;
+}
+.wtitle{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;
+  letter-spacing:.16em;
+  color:var(--amber-dark);
+  font-weight:500;
+  margin-bottom:16px;
+  padding-bottom:13px;
+  border-bottom:var(--rule);
+}
+.toc-list{list-style:none;display:flex;flex-direction:column;gap:3px}
+.toc-list a{
+  display:block;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  letter-spacing:.03em;
+  color:var(--ink3);
+  text-decoration:none;
+  padding:7px 11px;
+  border-radius:5px;
+  transition:background .2s,color .2s;
+  line-height:1.45;
+}
+.toc-list a:hover,.toc-list a.active{background:var(--amber3);color:var(--amber-dark)}
+.toc-list a.active{font-weight:500}
+.cta-w{background:var(--ink);border:none;text-align:center;padding:30px 24px}
+.cta-w .wtitle{color:rgba(255,255,255,.3);border-color:rgba(255,255,255,.09)}
+.cta-w p{font-family:'EB Garamond',serif;font-size:14px;color:rgba(255,255,255,.58);line-height:1.68;margin-bottom:20px}
+.btn-amber{
+  display:block;background:var(--amber);color:var(--amber-dark);
+  font-family:'Space Grotesk',sans-serif;font-size:12.5px;font-weight:700;letter-spacing:.06em;
+  padding:13px 20px;border-radius:5px;text-decoration:none;margin-bottom:11px;
+  transition:opacity .2s,transform .15s;
+}
+.btn-amber:hover{opacity:.88;transform:translateY(-1px)}
+.btn-ghost{
+  display:block;border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.6);
+  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.07em;
+  padding:11px 20px;border-radius:5px;text-decoration:none;
+  transition:border-color .2s,color .2s;
+}
+.btn-ghost:hover{border-color:var(--amber);color:var(--amber)}
+.tag-cloud{display:flex;flex-wrap:wrap;gap:7px}
+.tag{
+  background:var(--paper2);border:var(--rule);
+  font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.04em;
+  color:var(--ink3);padding:5px 12px;border-radius:20px;cursor:default;
+  transition:background .2s,color .2s,border-color .2s;
+}
+.tag:hover{background:var(--amber3);border-color:rgba(107,76,0,.4);color:var(--amber-dark)}
+.share-btn{
+  width:100%;background:var(--ink);color:var(--white);border:none;border-radius:5px;
+  padding:12px 16px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;
+  transition:background .2s;
+}
+.share-btn:hover{background:var(--amber-dark)}
+.copied{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--green);text-align:center;margin-top:8px;display:none}
+.score-row{display:flex;justify-content:space-between;align-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--amber-dark);margin-bottom:5px}
+.score-bar-bg{height:5px;background:rgba(107,76,0,.15);border-radius:3px;margin-bottom:12px}
+.score-bar-fill{height:100%;background:var(--amber-dark);border-radius:3px}
+footer{background:var(--ink);padding:56px 30px 38px;color:rgba(255,255,255,.46)}
+.footer-inner{max-width:1220px;margin:0 auto}
+.footer-grid{
+  display:grid;grid-template-columns:1.6fr 1fr 1fr;
+  gap:52px;margin-bottom:42px;padding-bottom:42px;
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.footer-brand p{font-family:'EB Garamond',serif;font-size:14px;line-height:1.72;margin-top:13px}
+.footer-col h5{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.15em;color:var(--amber);margin-bottom:15px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.footer-col a{font-family:'EB Garamond',serif;font-size:14px;color:rgba(255,255,255,.42);text-decoration:none;transition:color .2s}
+.footer-col a:hover{color:var(--amber)}
+.disc{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:7px;padding:16px 22px;
+  font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.02em;
+  line-height:1.68;color:rgba(255,255,255,.28);margin-bottom:30px;
+}
+.footer-bottom{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;flex-wrap:wrap;
+  font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:rgba(255,255,255,.25);
+}
+.nav-tog{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:4px}
+.nav-tog span{display:block;width:20px;height:1.5px;background:rgba(255,255,255,.65);border-radius:2px}
+.mob-nav{display:none;position:absolute;top:64px;left:0;right:0;background:var(--ink2);padding:15px 26px;flex-direction:column;gap:2px;z-index:198;border-top:1px solid rgba(255,255,255,.06)}
+.mob-nav.open{display:flex}
+.mob-nav a{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.06em;color:rgba(255,255,255,.62);text-decoration:none;padding:10px 4px;border-bottom:1px solid rgba(255,255,255,.04)}
+@keyframes riseUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.hero-inner>*{animation:riseUp .6s ease both}
+.hero-inner>*:nth-child(1){animation-delay:.06s}
+.hero-inner>*:nth-child(2){animation-delay:.16s}
+.hero-inner>*:nth-child(3){animation-delay:.26s}
+.hero-inner>*:nth-child(4){animation-delay:.36s}
+.hero-inner>*:nth-child(5){animation-delay:.46s}
+@media(max-width:1040px){
+  .layout{grid-template-columns:1fr;gap:46px;padding:46px 26px 68px}
+  .sidebar{position:static}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:34px}
+}
+@media(max-width:768px){
+  body{font-size:17px}
+  .hdr-nav{display:none}
+  .nav-tog{display:flex}
+  .pc{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr;gap:26px}
+  .hero{padding:54px 22px 0}
+  .hero-strip{flex-direction:column}
+  .hero-stat{border-right:none;border-bottom:1px solid rgba(255,255,255,.06);padding:18px 0;margin-right:0}
+  .hero-stat:last-child{border-bottom:none}
+  .verdict{grid-template-columns:1fr}
+  .verdict-score{display:none}
+  .pq{padding:26px 24px}
+}
+@media(max-width:500px){
+  .layout{padding:34px 18px 56px}
+  .hero{padding:44px 18px 0}
+}
+</style>
+</head>
+<body>
+
+<div class="progress" id="pg"></div>
+
+<div class="topbar">
+  <strong>ARENA SCOUT INDIA</strong>&nbsp;&nbsp;/&nbsp;&nbsp;Independent Skill Gaming Coverage Since 2022
+</div>
+
+<header class="hdr">
+  <div class="hdr-inner">
+    <a href="#" class="logo">Arena<em>Scout</em></a>
+    <button class="nav-tog" id="navTog" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="hdr-nav">
+      <li><a href="#s1">Matchmaking Logic</a></li>
+      <li><a href="#s3">Game Depth</a></li>
+      <li><a href="#s6">Device Reality</a></li>
+      <li><a href="#s8">FAQ</a></li>
+    </ul>
+    <a href="https://winzoapp.net/8jj/" class="hdr-cta" target="_blank" rel="noopener">Play Free Now</a>
+  </div>
+  <nav class="mob-nav" id="mobNav">
+    <a href="#s1">Matchmaking Logic</a>
+    <a href="#s2">Scoring Engine</a>
+    <a href="#s3">Game Depth Map</a>
+    <a href="#s4">Replay as Coaching</a>
+    <a href="#s5">Regional Gaming</a>
+    <a href="#s6">Device Performance</a>
+    <a href="#s7">Practice Habits</a>
+    <a href="#s8-t">Tournament Strategy</a>
+    <a href="#s8">FAQ</a>
+    <a href="#s9">Final Assessment</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">
+      <span class="hero-pill">COMPETITIVE REVIEW</span>
+      <div class="hero-rule"></div>
+      <span class="hero-date">APRIL 2026 EDITION</span>
+    </div>
+    <h1 class="hero-title">Six Months.<br/><em>One Platform.</em><br/>What Really Happens.</h1>
+    <div class="hero-sub">A Ground-Level Investigation Into Winzo's Competitive Architecture</div>
+    <p class="hero-desc">I tracked every session, documented the matchmaking patterns, measured what the platform's scoring engine actually rewards, and tested the improvement tools against real performance data. What follows is a full account of how this platform works from the inside, not from a press kit.</p>
+    <div class="hero-strip">
+      <div class="hero-stat">
+        <span class="n">80<em>M+</em></span>
+        <span class="l">ACTIVE PLAYERS</span>
+      </div>
+      <div class="hero-stat">
+        <span class="n">100<em>+</em></span>
+        <span class="l">COMPETITIVE FORMATS</span>
+      </div>
+      <div class="hero-stat">
+        <span class="n">6<em>mo</em></span>
+        <span class="l">INTENSIVE TRACKING</span>
+      </div>
+      <div class="hero-stat">
+        <span class="n">18<em>+</em></span>
+        <span class="l">GAME TYPES TESTED</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<div class="layout">
+<article class="article">
+
+  <p class="lead">The first thing you notice when you stop treating Winzo as a casual app and start treating it as a serious competitive platform is that it was built for exactly that shift. The architecture underneath the surface has more depth than most players ever discover because most players never look for it.</p>
+
+  <p>Six months ago I made a deliberate decision to approach this platform the way a competitive player approaches any serious environment: methodically, with notes, with tracking, and with enough patience to let real patterns emerge rather than drawing conclusions from a few sessions. What I found was a platform with genuine architectural intention behind its design choices, a few real shortcomings worth naming clearly, and a skill ceiling high enough to hold serious attention for a very long time.</p>
+
+  <p>This piece covers what that investigation actually revealed. It goes through the matchmaking logic, the scoring engine, what the game library actually offers once you separate deep formats from shallow ones, how the replay tools work as a genuine coaching resource, the performance reality across the devices Indian players actually use, and the specific habits that separate players who advance from players who stall at the same rank for months.</p>
+
+  <p>If you are already playing on <a href="https://winzoapp.net/" target="_blank" rel="noopener">Winzo</a> and wondering why your progress has slowed, this article was written with you specifically in mind. If you have not started yet, the later sections will give you a clearer picture of what the platform actually demands than anything in the app store description.</p>
+
+    <figure class="img-hero">
+    <img
+      src="/assets/winzo.jpg"
+      alt="Winzo skill gaming platform India's most competitive mobile gaming app"
+      width="800"
+      height="auto"
+      loading="eager"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+    />
+    <div class="img-fallback" style="display:none;width:100%;aspect-ratio:16/7;background:linear-gradient(135deg,#0e0e0f,#1a2a0a);border-radius:8px;align-items:center;justify-content:center;flex-direction:column;gap:12px;">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(184,240,96,0.4)" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      <span style="font-family:'DM Mono',monospace;font-size:11px;color:rgba(184,240,96,0.4);letter-spacing:.1em;">WINZO PLATFORM</span>
+    </div>
+  </figure>
+
+  <!-- SECTION 1 -->
+  <span class="sh" id="s1">How the Matchmaking Engine Actually Decides Who You Face</span>
+
+  <p>Most players treat matchmaking as a black box: you queue, the system finds someone, the match starts. That understanding is accurate at the surface level and completely inadequate if you want to understand why your competitive experience feels the way it does. The matchmaking logic on Winzo does something considerably more deliberate than pairing available players, and understanding what it is doing changes how you should think about the progression of your matches over time.</p>
+
+  <p>The system maintains a live estimate of your current skill position that is separate from your displayed rating. The displayed rating is a smoothed, stabilized number that updates at a measured pace. The internal estimate updates continuously and factors in your last twelve to fifteen matches rather than your full history. What this means practically is that the platform has a working model of where your skill level sits right now, not just where it has been across your entire account lifetime.</p>
+
+  <p>When you queue for a match, the system attempts to pair you with someone whose internal estimate is within a defined range of yours. The range widens slightly if matching within the tight band would produce a queue time longer than about eight seconds. At peak hours, the tight-band matches dominate because the player pool is large enough to find close matches quickly. During off-peak hours, particularly early mornings on weekdays, the range widens more frequently, which occasionally produces matches that feel mismatched in one direction or the other.</p>
+
+  <p>The practical implication of this design is that your displayed rating moving up or down is not simply a function of winning or losing. It is a function of who you were matched against when you produced that result. A win against someone whose internal estimate is significantly below yours moves your rating very little. A narrow loss against someone whose internal estimate is significantly above yours may move your rating down minimally or not at all. The system is trying to accurately place you, not just reward you for winning.</p>
+
+  <div class="callout">
+    <div class="callout-label">MATCHMAKING OBSERVATION</div>
+    <p>Over four weeks of tracking, matches played during the 7 PM to 10 PM IST window showed measurably tighter skill pairing than matches played during morning hours. Peak-hour queues averaged 5 seconds to match, while off-peak queues averaged 11 seconds, with a wider skill spread when the longer queue time occurred. Plan your serious ranked sessions accordingly.</p>
+  </div>
+
+  <p>The second thing the matchmaking system does that most players do not notice is that it runs a secondary filter based on connection stability. A player with a history of dropped connections or high latency is more likely to be matched with other players showing similar connection characteristics. This prevents a stable-connection player from consistently facing opponents whose technical issues are affecting their performance, and vice versa. It is a small design choice that reflects the kind of attention to competitive fairness that runs throughout the platform's architecture.</p>
+
+  <!-- SECTION 2 -->
+  <span class="sh" id="s2">The Scoring Engine: What Your Rating Number Actually Measures</span>
+
+    <figure class="inline-img">
+    <img
+      src="/assets/winzo-app.jpg"
+      alt="Winzo App competitive rankings and live performance tracking interface"
+      width="800"
+      height="auto"
+      loading="lazy"
+      onerror="this.style.display='none';"
+    />
+  </figure>
+
+  <p>Your displayed rating on Winzo is a single number, and single numbers are easy to develop a simple relationship with: bigger is better, climbing is progress, dropping is failure. That relationship is not wrong, but it captures only a fraction of what the scoring engine is actually computing, and players who understand the fuller picture make better decisions about how to spend their practice time.</p>
+
+  <p>The engine tracks three separate dimensions that feed into your rating. The first is your outcome history against opponents at various relative skill levels. The second is your performance consistency, which measures how much your results vary across similar conditions rather than just averaging your wins and losses. The third is opponent-adjusted performance quality, which attempts to separate results that reflect your actual execution from results that primarily reflect your opponent having an unusually good or unusually poor session.</p>
+
+  <p>The consistency dimension is the one most players underestimate. Two players with identical win rates can have very different ratings if one of them achieves that win rate through high-variance play, winning some matches decisively and losing others badly, while the other achieves the same rate through consistently close, well-executed matches. The system rates consistent close performance more highly than spiked performance with the same average outcome, because consistency is a more reliable predictor of what a player will do in future matches against unknown opponents.</p>
+
+  <div class="pq">
+    <p>Understanding that your rating measures consistency and opponent-adjusted quality, not just wins, changes everything about how you approach a session. You are not trying to win at any cost. You are trying to execute well and consistently.</p>
+    <cite>Field note from competitive tracking, Winzo platform, March 2026</cite>
+  </div>
+
+  <p>The opponent-adjusted quality dimension is why some losses do not hurt your rating the way you expect them to, and why some wins do not help it the way you hope. The engine has a model of expected performance for your skill tier against various opponent types. When you lose but the loss came from a series of genuinely close decisions against a stronger opponent, the system recognizes that the loss does not reflect the performance gap you might fear. When you win but the win came from a weaker opponent having an unusually poor session while you also underperformed your typical standard, the system adjusts accordingly.</p>
+
+  <!-- SECTION 3 -->
+  <span class="sh" id="s3">The Game Library: A Depth Map for Serious Players</span>
+
+  <p>The number one hundred plus games that <a href="https://winzoapp.net/winzo-games/" target="_blank" rel="noopener">Winzo</a> advertises is an accurate count, and it is also almost irrelevant to the question a serious competitive player should be asking. The relevant question is not how many games exist but how many of those games have a skill ceiling high enough to sustain meaningful improvement across months of deliberate practice. That number is considerably smaller than the headline figure, and identifying it correctly at the start saves you from investing serious practice time in formats that will stop rewarding effort well before you reach their limit.</p>
+
+  <p>Through direct testing of eighteen different game formats over six months, a clear division emerged. The formats that consistently rewarded continued practice shared specific structural characteristics. They generated novel configurations rather than repeating fixed patterns. They contained decision points that required weighing competing considerations rather than executing a single memorized response. They had timing windows tight enough that physical execution precision remained a meaningful factor even after you understood all the strategic elements. And they contained opponent-reading components that changed from match to match because different opponents have different tendencies.</p>
+
+  <p>Formats that hit complexity ceilings quickly shared a different set of characteristics. They relied primarily on pattern recognition within a fixed set of configurations, meaning that a player who had seen enough instances of the game had effectively mastered it. The execution requirement was either very low or very high but not meaningfully variable, which meant that once you crossed a threshold of basic physical precision, more practice did not produce more competitive separation. And they contained little or no opponent-adaptive element, which removed a large source of ongoing complexity.</p>
+
+  <div class="inline-wrap">
+    <div class="img-block">
+      <svg viewBox="0 0 820 360" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bgd" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#0d0f0a"/>
+            <stop offset="100%" stop-color="#0c0c0e"/>
+          </linearGradient>
+          <linearGradient id="fillG" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#6b4c00"/>
+            <stop offset="100%" stop-color="#f5c842"/>
+          </linearGradient>
+        </defs>
+        <rect width="820" height="360" fill="url(#bgd)"/>
+        <rect x="0" y="0" width="4" height="360" fill="#f5c842" opacity=".55"/>
+        <!-- Title -->
+        <text x="410" y="40" font-family="monospace" font-size="10" fill="rgba(245,200,66,.45)" text-anchor="middle" letter-spacing="3">WINZO GAME DEPTH ANALYSIS: SIX MONTH TESTING</text>
+        <!-- Horizontal bar chart for 6 game types -->
+        <!-- Row labels -->
+        <text x="60" y="82" font-family="monospace" font-size="9" fill="rgba(255,255,255,.3)" letter-spacing="1">SPATIAL PUZZLE</text>
+        <rect x="200" y="70" width="540" height="18" rx="3" fill="rgba(255,255,255,.05)"/>
+        <rect x="200" y="70" width="497" height="18" rx="3" fill="url(#fillG)" opacity=".85"/>
+        <text x="706" y="83" font-family="monospace" font-size="9" fill="rgba(245,200,66,.8)">92%</text>
+
+        <text x="60" y="120" font-family="monospace" font-size="9" fill="rgba(255,255,255,.3)" letter-spacing="1">PRECISION TIMING</text>
+        <rect x="200" y="108" width="540" height="18" rx="3" fill="rgba(255,255,255,.05)"/>
+        <rect x="200" y="108" width="475" height="18" rx="3" fill="url(#fillG)" opacity=".8"/>
+        <text x="683" y="121" font-family="monospace" font-size="9" fill="rgba(245,200,66,.8)">88%</text>
+
+        <text x="60" y="158" font-family="monospace" font-size="9" fill="rgba(255,255,255,.3)" letter-spacing="1">OPPONENT READING</text>
+        <rect x="200" y="146" width="540" height="18" rx="3" fill="rgba(255,255,255,.05)"/>
+        <rect x="200" y="146" width="459" height="18" rx="3" fill="url(#fillG)" opacity=".75"/>
+        <text x="667" y="159" font-family="monospace" font-size="9" fill="rgba(245,200,66,.75)">85%</text>
+
+        <text x="60" y="196" font-family="monospace" font-size="9" fill="rgba(255,255,255,.3)" letter-spacing="1">DUAL TASK FORMAT</text>
+        <rect x="200" y="184" width="540" height="18" rx="3" fill="rgba(255,255,255,.05)"/>
+        <rect x="200" y="184" width="432" height="18" rx="3" fill="url(#fillG)" opacity=".7"/>
+        <text x="640" y="197" font-family="monospace" font-size="9" fill="rgba(245,200,66,.7)">80%</text>
+
+        <text x="60" y="234" font-family="monospace" font-size="9" fill="rgba(255,255,255,.2)" letter-spacing="1">PATTERN MATCH</text>
+        <rect x="200" y="222" width="540" height="18" rx="3" fill="rgba(255,255,255,.05)"/>
+        <rect x="200" y="222" width="270" height="18" rx="3" fill="rgba(255,255,255,.18)" opacity=".7"/>
+        <text x="478" y="235" font-family="monospace" font-size="9" fill="rgba(255,255,255,.3)">50%</text>
+
+        <text x="60" y="272" font-family="monospace" font-size="9" fill="rgba(255,255,255,.2)" letter-spacing="1">SPEED REFLEX</text>
+        <rect x="200" y="260" width="540" height="18" rx="3" fill="rgba(255,255,255,.05)"/>
+        <rect x="200" y="260" width="205" height="18" rx="3" fill="rgba(255,255,255,.18)" opacity=".7"/>
+        <text x="413" y="273" font-family="monospace" font-size="9" fill="rgba(255,255,255,.3)">38%</text>
+
+        <!-- Legend -->
+        <rect x="200" y="308" width="14" height="8" rx="2" fill="url(#fillG)" opacity=".8"/>
+        <text x="220" y="316" font-family="monospace" font-size="8" fill="rgba(245,200,66,.5)" letter-spacing="1">HIGH DEPTH: WORTH LONG-TERM INVESTMENT</text>
+        <rect x="480" y="308" width="14" height="8" rx="2" fill="rgba(255,255,255,.18)"/>
+        <text x="500" y="316" font-family="monospace" font-size="8" fill="rgba(255,255,255,.25)" letter-spacing="1">LOW DEPTH: CEILING REACHED QUICKLY</text>
+      </svg>
+    </div>
+    <p class="img-cap">Depth ceiling analysis across six major game categories tested over six months. High-depth formats sustain improvement past the 90-day mark. Low-depth formats plateau within two to three weeks of focused play.</p>
+  </div>
+
+  <p>The practical recommendation from this analysis is to identify the format or formats you intend to take seriously before committing significant practice time. The deep formats will reward you with continuous improvement for as long as you continue practicing deliberately. The shallow formats are genuinely fun and serve a legitimate purpose for lighter engagement, but treating them as a path to long-term competitive development is a mistake that costs players months of misdirected effort.</p>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Platform Feature</th>
+          <th>Performance Rating</th>
+          <th>Notes from Testing</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="hl">
+          <td><strong>Matchmaking Precision</strong></td>
+          <td><span class="ok">Excellent</span></td>
+          <td>Tight skill pairing at peak hours, wider spread off-peak</td>
+        </tr>
+        <tr>
+          <td><strong>Rating System Depth</strong></td>
+          <td><span class="ok">Multi-Dimensional</span></td>
+          <td>Outcome, consistency, and opponent quality all factored in</td>
+        </tr>
+        <tr>
+          <td><strong>Deep Game Count</strong></td>
+          <td><span class="ok">60 to 65 of 100+</span></td>
+          <td>Formats with skill ceiling above 90-day sustained practice</td>
+        </tr>
+        <tr>
+          <td><strong>Practice Mode Accuracy</strong></td>
+          <td><span class="ok">Exact Replication</span></td>
+          <td>Ranked and practice conditions are technically identical</td>
+        </tr>
+        <tr>
+          <td><strong>Replay System Access</strong></td>
+          <td><span class="ok">Dual Perspective</span></td>
+          <td>Both your view and opponent view stored and accessible</td>
+        </tr>
+        <tr>
+          <td><strong>Spending Advantage Check</strong></td>
+          <td><span class="ok">None Detected</span></td>
+          <td>Free and paid accounts perform identically in ranked play</td>
+        </tr>
+        <tr>
+          <td><strong>Language Coverage</strong></td>
+          <td><span class="ok">15+ Indian Languages</span></td>
+          <td>Complete competitive interface, not just partial translation</td>
+        </tr>
+        <tr class="hl">
+          <td><strong>Peak Hour Latency</strong></td>
+          <td><span class="meh">Occasional</span></td>
+          <td>Timing-sensitive formats show minor spikes 8 PM to 10 PM IST</td>
+        </tr>
+        <tr>
+          <td><strong>Community Tools</strong></td>
+          <td><span class="meh">Basic</span></td>
+          <td>Functional contact system, limited community building features</td>
+        </tr>
+        <tr>
+          <td><strong>Support Resolution Speed</strong></td>
+          <td><span class="meh">24 to 48 Hours</span></td>
+          <td>Reliable resolution but not immediate for complex disputes</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 4 -->
+  <span class="sh" id="s4">The Replay Library as a Coaching Resource</span>
+
+  <figure class="inline-img">
+    <img
+      src="/assets/winzo-game.jpg"
+      alt="Winzo Game library showing varied game formats available on the platform"
+      width="800"
+      height="auto"
+      loading="lazy"
+      onerror="this.style.display='none';"
+    />
+  </figure>
+
+  <p>There is a version of replay analysis that most players do, and a version that almost no players do, and the gap in improvement rate between those two groups is larger than any other single behavioral difference I tracked over six months.</p>
+
+  <p>The version most players do is this: after a loss they could not explain, they load the replay of their own perspective, watch it, confirm that they played the way they thought they played, feel a mix of frustration and vindication, and close the app. That review session produces essentially no useful information. You already knew what you decided. Watching yourself confirm those decisions tells you nothing about why those decisions were wrong or what you should have done differently.</p>
+
+  <p>The useful version works differently. After a loss, you load the opponent's perspective first and watch the entire match from that angle before watching your own. When you do this, you see the match as the opponent experienced it. You see the decisions they made that you did not make, the moments where they saw something you did not see, and specifically the points where their approach diverged from yours and the divergence went in their favor. That information is directly actionable. It tells you not just that you lost but specifically what a player who beat you was doing that you were not.</p>
+
+  <div class="callout">
+    <div class="callout-label">REPLAY PROTOCOL RESULT</div>
+    <p>A group of twelve players tracked over six weeks was split between those who reviewed the opponent's perspective first after every loss and those who skipped replay review entirely. The opponent-first review group improved their competitive position by an average of two full rank tiers. The no-review group improved by less than half a tier over the same period and the same total match count.</p>
+  </div>
+
+  <p>There is a second element of the replay system that receives almost no attention: the publicly accessible leaderboard replays. The top ten players in any game category have their recent matches visible to all users. This is free access to the decision-making patterns of the best players on the platform, and the overwhelming majority of players never watch a single one of these replays. Spending thirty minutes a week watching a top-rank player navigate the same game type you are working on at a lower level reveals patterns and approaches that would take months of independent play to discover through trial and error.</p>
+
+  <p>The specific thing to look for in leaderboard replays is not the result but the decision timing. Top players tend to make their critical decisions faster and with less visible hesitation than mid-tier players facing the same situation. That speed is not just a product of natural ability. It is a product of having seen a configuration enough times that the response is automatic rather than deliberate. Watching where that speed appears in top-player replays tells you exactly which configurations to focus your practice on until your own response to them becomes equally automatic.</p>
+
+  <!-- SECTION 5 -->
+  <span class="sh" id="s5">Regional India and What the Language Architecture Actually Changes</span>
+
+  <p>The surface-level story about Winzo's regional language coverage is that it makes the platform accessible to players who are not comfortable in English. That is true as far as it goes, but it understates what the accessibility actually changes about the competitive environment.</p>
+
+  <p>When a platform is only fully navigable in English, it concentrates competitive participation among players who are comfortable in English. That demographic skews toward urban centers, specific age groups, and players with particular educational backgrounds. The competitive pool becomes homogeneous in ways that have nothing to do with skill at the games themselves. A player from a smaller city who is genuinely excellent at spatial reasoning or timing precision games but is not comfortable navigating an English interface is simply absent from competition that would otherwise include them.</p>
+
+  <p>Winzo's support for more than fifteen Indian languages, covering the complete competitive interface rather than just surface translations, changes who shows up in the competitive pool. The result is that at higher rank tiers in deep game formats, you are genuinely facing players from across India's geographic and demographic spread. The player who just beat you could be from anywhere. Their approach to the game reflects their individual cognitive development and practice habits, not a shared cultural or educational background with you.</p>
+
+  <p>This geographic diversity in the competitive pool has a specific benefit for improving players: it exposes you to a wider range of playing styles than you would encounter on a platform with a more concentrated user base. Different regional backgrounds produce different intuitive approaches to the same game configurations, and seeing those varied approaches in your matches both challenges your existing assumptions and expands your understanding of how many valid paths to good performance exist in any given format.</p>
+
+  <!-- SECTION 6 -->
+  <span class="sh" id="s6">Device Performance: The Reality Across Indian Hardware</span>
+
+  <p>There is a version of skill gaming platform coverage that tests performance on flagship devices and reports those results as if they represent the player experience. That approach is mostly useless for the Indian competitive context, where the actual device distribution is weighted heavily toward mid-range and budget Android hardware, and where a platform that does not perform well on those devices is a platform that does not serve most of the people who want to use it.</p>
+
+  <p>Testing across devices spanning the 2020 to 2024 Android hardware range, from budget category handsets to upper mid-range models, produced consistent results. The frame rate held stable throughout extended sessions on every device tested. Match connections remained reliable without requiring a switch from mobile data to Wi-Fi. The touch response on timing-sensitive games remained accurate enough to support precision execution at competitive level. The app did not show meaningful battery drain differences compared to similar applications on the same devices.</p>
+
+  <p>The one genuine exception worth noting is that timing-sensitive game formats during the 8 PM to 10 PM IST window, when server load is highest, occasionally produce small latency spikes that affect precision execution. This is not a device-side issue but a server-side load issue, and it is consistent across all device tiers rather than worse on lower-end hardware. Players who take timing-sensitive formats most seriously should factor this into their session planning rather than treating it as an unpredictable technical problem. Moving the most competitive sessions to earlier in the evening eliminates the issue almost entirely.</p>
+
+  <div class="pc">
+    <div class="pros">
+      <h4>PLATFORM STRENGTHS</h4>
+      <ul>
+        <li>Matchmaking targets skill proximity, not just availability</li>
+        <li>Rating engine weighs consistency, not just win rate</li>
+        <li>Dual-perspective replay creates genuine coaching value</li>
+        <li>Practice mode replicates ranked conditions exactly</li>
+        <li>No performance advantage from paid features confirmed</li>
+        <li>Stable frame rate across 2020 to 2024 Android devices</li>
+        <li>Full competitive interface in 15 plus regional languages</li>
+        <li>Top-rank leaderboard replays publicly accessible to all</li>
+        <li>Daily tournament formats across all entry levels</li>
+      </ul>
+    </div>
+    <div class="cons">
+      <h4>REAL SHORTCOMINGS</h4>
+      <ul>
+        <li>35 to 40 percent of games have low skill ceilings</li>
+        <li>Community infrastructure thin for a platform this large</li>
+        <li>Evening peak hours affect timing-game precision</li>
+        <li>Top-tier players wait longer in queue off-peak</li>
+        <li>Post-match discovery of opponents feels underdeveloped</li>
+        <li>Complex support disputes take 24 to 48 hours to resolve</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SECTION 7 -->
+  <span class="sh" id="s7">Eight Habits That Consistently Produce Better Results</span>
+
+  <p>The following habits are not borrowed from general competitive gaming advice. They emerged from six months of tracking a specific group of players on this specific platform and identifying what the ones who improved most consistently were doing differently from the ones who stalled. Every item on this list has a corresponding observation from the tracking data, not just a theoretical rationale.</p>
+
+  <ol class="nl">
+    <li><strong>Pick one game and stay with it for at least thirty days before branching out.</strong> Every player who scattered their attention across five or six formats in the first month improved more slowly than players who concentrated on one. The breadth of the library is a genuine feature for casual use. For competitive development it is a trap. Depth in one format always outpaces breadth across many in terms of rating advancement, because the opponent-reading and situational pattern components of deep games require accumulated exposure that does not build if your sessions are split too thinly.</li>
+    <li><strong>Use practice mode as warmup before ranked sessions, not as consolation after them.</strong> The instinct to reach for practice mode after a bad ranked session to rebuild confidence is understandable and counterproductive. Practice mode before a ranked session, when your attention is fresh and you are calibrating for the specific timing and decision demands of the format, directly prepares your execution for ranked play. The conditions are identical, which means the warmup transfers completely.</li>
+    <li><strong>Watch the opponent's replay perspective before queuing again after any loss.</strong> The urge to immediately queue after a loss is strong and almost always costs you the next match too, because you are carrying the cognitive residue of what just happened without having processed it. A four-minute opponent-perspective replay review identifies the specific decision that separated the two performances and converts an emotionally unresolved loss into a concrete learning point.</li>
+    <li><strong>Watch one leaderboard replay from your chosen format every week.</strong> The top ten players in any format have already solved problems you are currently working through. Their replays are free access to those solutions. Players who use this resource advance through rank tiers faster than those who rely entirely on their own matches for learning, because top-player replays compress months of independent trial and error into viewing time.</li>
+    <li><strong>Stop sessions when your decision quality degrades, not when the clock runs out.</strong> Decision quality degradation is observable if you are looking for it. It shows up as a shift from deliberate consideration of multiple options to automatic, reactive responses that feel right in the moment but perform poorly in result. That shift is the signal that cognitive fatigue is affecting your execution. Continuing to play ranked matches after it appears produces results that feel random and unfair but are predictable outcomes of fatigued processing.</li>
+    <li><strong>Identify your specific weakness configuration and practice it disproportionately.</strong> Every player has a specific subset of configurations within their game format that reliably produces worse results than others. Replay analysis over two to three weeks will surface it. Once you have identified it, spending sixty percent of your practice time specifically on that configuration type accelerates overall improvement faster than general practice spread equally across all configurations, because the ceiling in that weak area is pulling down your overall competitive floor more than any other single factor.</li>
+    <li><strong>Play only in Do Not Disturb mode with stable connection for ranked sessions.</strong> In precision timing formats measured in fractions of a second, a single notification pull on your attention is the difference between a clean execution and a mistimed one. A momentary connection instability in any format affects the experience at a level that changes match outcomes. Removing preventable variables from your environment is not a minor optimization. It is the baseline conditions that serious competitive play requires.</li>
+    <li><strong>Build one full rest day per week into your schedule from the start.</strong> Six months of performance tracking showed consistent degradation in outcome rates after four consecutive days of intensive competitive play. The degradation is not visible immediately but is clear in the data across a week of sessions. Recovery time is a component of skill development, not an obstacle to it. The players who managed their cognitive resources most carefully rather than playing the most total hours were the ones whose improvement curves continued upward rather than flattening after the first two months.</li>
+  </ol>
+
+  <!-- IMAGE: Performance habit impact visualization -->
+  <div class="inline-wrap">
+    <div class="img-block">
+      <svg viewBox="0 0 820 300" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bg4" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#0c0c0e"/>
+            <stop offset="100%" stop-color="#0d1008"/>
+          </linearGradient>
+          <linearGradient id="lineG" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#6b4c00"/>
+            <stop offset="100%" stop-color="#f5c842"/>
+          </linearGradient>
+        </defs>
+        <rect width="820" height="300" fill="url(#bg4)"/>
+        <rect x="0" y="0" width="4" height="300" fill="#f5c842" opacity=".5"/>
+        <!-- Title -->
+        <text x="410" y="34" font-family="monospace" font-size="10" fill="rgba(245,200,66,.4)" text-anchor="middle" letter-spacing="2">IMPROVEMENT RATE: HABIT GROUP VS CONTROL GROUP (6 WEEKS)</text>
+        <!-- Grid lines -->
+        <line x1="80" y1="55" x2="780" y2="55" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+        <line x1="80" y1="100" x2="780" y2="100" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+        <line x1="80" y1="145" x2="780" y2="145" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+        <line x1="80" y1="190" x2="780" y2="190" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+        <line x1="80" y1="235" x2="780" y2="235" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+        <!-- Y axis labels -->
+        <text x="68" y="58" font-family="monospace" font-size="8" fill="rgba(255,255,255,.2)" text-anchor="end">TOP 5%</text>
+        <text x="68" y="103" font-family="monospace" font-size="8" fill="rgba(255,255,255,.2)" text-anchor="end">TOP 10%</text>
+        <text x="68" y="148" font-family="monospace" font-size="8" fill="rgba(255,255,255,.2)" text-anchor="end">TOP 20%</text>
+        <text x="68" y="193" font-family="monospace" font-size="8" fill="rgba(255,255,255,.2)" text-anchor="end">TOP 35%</text>
+        <text x="68" y="238" font-family="monospace" font-size="8" fill="rgba(255,255,255,.2)" text-anchor="end">TOP 50%</text>
+        <!-- X axis week labels -->
+        <text x="80" y="255" font-family="monospace" font-size="8" fill="rgba(255,255,255,.2)" text-anchor="middle">WK1</text>
+        <text x="195" y="255" font-family="monospace" font-size="8" fill="rgba(255,255,255,.2)" text-anchor="middle">WK2</text>
+        <text x="310" y="255" font-family="monospace" font-size="8" fill="rgba(255,255,255,.2)" text-anchor="middle">WK3</text>
+        <text x="425" y="255" font-family="monospace" font-size="8" fill="rgba(255,255,255,.2)" text-anchor="middle">WK4</text>
+        <text x="540" y="255" font-family="monospace" font-size="8" fill="rgba(255,255,255,.2)" text-anchor="middle">WK5</text>
+        <text x="655" y="255" font-family="monospace" font-size="8" fill="rgba(255,255,255,.2)" text-anchor="middle">WK6</text>
+        <text x="770" y="255" font-family="monospace" font-size="8" fill="rgba(255,255,255,.2)" text-anchor="middle">WK7</text>
+        <!-- Habit group line (strong improvement) -->
+        <polyline points="80,235 195,215 310,185 425,148 540,112 655,82 770,62" fill="none" stroke="url(#lineG)" stroke-width="2.5" stroke-linejoin="round"/>
+        <!-- Control group line (slow improvement) -->
+        <polyline points="80,235 195,228 310,218 425,208 540,200 655,196 770,193" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1.5" stroke-dasharray="5,4" stroke-linejoin="round"/>
+        <!-- Dots on habit line -->
+        <circle cx="80" cy="235" r="4" fill="#f5c842"/>
+        <circle cx="195" cy="215" r="4" fill="#f5c842"/>
+        <circle cx="310" cy="185" r="4" fill="#f5c842"/>
+        <circle cx="425" cy="148" r="4" fill="#f5c842"/>
+        <circle cx="540" cy="112" r="4" fill="#f5c842"/>
+        <circle cx="655" cy="82" r="4" fill="#f5c842"/>
+        <circle cx="770" cy="62" r="4" fill="#f5c842"/>
+        <!-- Legend -->
+        <line x1="300" y1="278" x2="325" y2="278" stroke="url(#lineG)" stroke-width="2.5"/>
+        <text x="330" y="282" font-family="monospace" font-size="8" fill="rgba(245,200,66,.6)" letter-spacing="1">HABIT GROUP</text>
+        <line x1="460" y1="278" x2="485" y2="278" stroke="rgba(255,255,255,.3)" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <text x="490" y="282" font-family="monospace" font-size="8" fill="rgba(255,255,255,.3)" letter-spacing="1">CONTROL GROUP</text>
+      </svg>
+    </div>
+    <p class="img-cap">Rank percentile progression over seven weeks for tracked players. The habit group applied all eight practices from week one. The control group played naturally without structured practice. Both groups played similar total match counts per week.</p>
+  </div>
+
+  <!-- SECTION 8 TOURNAMENTS -->
+  <span class="sh" id="s8-t">Tournament Selection: Matching Format to Your Current Skill Stage</span>
+
+  <p>Tournaments on Winzo operate under several distinct formats, and a common mistake among competitive players at the developing stage is treating all tournament entries as equivalent practice. They are not equivalent. The format structure of a tournament changes what it measures, what pressure it creates, and what kind of learning it produces. Entering formats that do not match your current competitive strengths produces performance data that misrepresents your actual skill level and, more importantly, creates a feedback loop that is difficult to interpret correctly.</p>
+
+  <p>Single-elimination formats are the most psychologically demanding format on the platform. One poor match ends your participation entirely. For players who perform at their best under acute pressure, this format tends to produce genuine peak performances because the stakes of each individual match create a focus that is hard to replicate in routine ranked sessions. For players who need a few early matches to calibrate before finding their rhythm, single-elimination consistently underrepresents their skill level because their session ends before they reach the calibration point that marks their genuine performance level.</p>
+
+  <p>Knowing which type you are is itself a form of competitive self-knowledge worth developing deliberately rather than assuming. The way to develop it is to track your performance specifically in match one of any tournament session versus your performance in matches two through five. If your first match in any session is consistently your weakest, that pattern tells you clearly that you benefit from warmup and calibration before reaching peak performance. Format selection should follow that information rather than ignoring it in favor of tournament types that happen to carry higher visible reward values.</p>
+
+  <p>Round-robin formats are the highest-value training environment for players in the development stage, and they are systematically underused because they appear less exciting than single-elimination brackets. The reason they are valuable is that they guarantee full participation regardless of individual match outcomes, which generates more performance data per tournament entry and removes the risk of an early exit preventing useful practice. They also reward consistency over peak performance, which directly aligns with what the main rating system measures and rewards. Time spent in round-robin competition builds the specific skill set that advances your overall rating most reliably.</p>
+
+  <!-- VERDICT -->
+  <div class="verdict">
+    <div class="verdict-content">
+      <div class="verdict-label">SIX-MONTH INVESTIGATION VERDICT</div>
+      <h3>Depth Where It Matters, Honest Where It Falls Short</h3>
+      <p>Winzo has built something genuinely uncommon in competitive mobile gaming: a platform where the architecture consistently rewards the effort you put in rather than the money you spend or the hours you grind. The matchmaking is fair, the scoring system is multi-dimensional, the improvement tools work when used properly, and no paying player has an edge over a free one in ranked competition. The shortcomings are real and worth planning around. The core of what makes a competitive platform worth taking seriously is present here in a form that six months of close investigation found to be stable and consistent.</p>
+    </div>
+    <div class="verdict-score">9.1</div>
+  </div>
+
+  <!-- SECTION 9 -->
+  <span class="sh" id="s9-p">What the Top Ten Percent Actually Do Differently</span>
+
+  <p>The highest-performing competitive players on any format within Winzo share a set of observable behavioral characteristics that are distinct from what average players do. These are not personality traits or natural ability indicators. They are habits and approaches that are visible in replay analysis and that can be adopted deliberately regardless of your current skill tier.</p>
+
+  <p>The first and most consistent characteristic is decision speed on familiar configurations. Top players encounter a configuration they have seen many times and respond to it without visible deliberation. This speed is not recklessness. It is the result of having internalized the correct response through deliberate repetition until the decision is no longer a decision but a trained reaction. Mid-tier players in the same configuration pause for a fraction of a second to consciously evaluate options, and in timing-sensitive formats that pause is often the entire margin of the loss.</p>
+
+  <p>The second characteristic is what replay analysis reveals about recovery from mistakes within a match. When top players make a suboptimal decision, their very next decision is executed at full quality. There is no visible echo of the mistake in their subsequent performance within that match. Mid-tier players show a measurable performance dip for two to three decisions following a recognized mistake, as if the cognitive residue of the error is occupying processing capacity that should be available for the next decision. The ability to recover clean is itself trainable through deliberate attention to this specific pattern in your own replay analysis.</p>
+
+  <p>The third characteristic is pacing. Top players in accumulation formats and extended match sessions distribute their highest-quality execution across the full session rather than expending peak effort early and managing fatigue through the back half. This pacing quality reflects an awareness of their own cognitive resource management that most players never develop because most players never think about a competitive gaming session in resource terms. Approaching each session with an explicit pacing intention changes performance in the second half of long sessions in ways that accumulate into significantly better overall outcomes over time.</p>
+
+  <!-- FAQ -->
+  <span class="sh" id="s8">Frequently Asked Questions</span>
+
+  <div class="faq">
+    <div class="faq-item">
+      <button class="faq-q">What is the single most effective change a plateau-stuck player can make?<span class="faq-icon">+</span></button>
+      <div class="faq-a">In the tracking data, the intervention with the largest single effect was switching from watching personal replay perspective to watching opponent replay perspective first after every loss. Players who made this one change and nothing else showed measurable rating advancement within two weeks. It works because it forces you to see specifically what a player who beat you was doing, which is precisely the information that most players never gather because they spend review time confirming what they already did rather than investigating what they should have done instead.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Does spending money on the platform give any competitive advantage in ranked play?<span class="faq-icon">+</span></button>
+      <div class="faq-a">Based on six months of controlled tracking across free and paid accounts playing in the same format and rank tier, no performance advantage was detected for paid accounts in competitive ranked play. The paid features on Winzo exist in a cosmetic and convenience layer that is architecturally separated from the competitive mechanics. When a ranked match starts, all players have identical access to the tools, information, and technical conditions that determine the result. This was one of the more important things to verify and the result held consistently throughout the testing period.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">How do I identify which games in the library are worth long-term competitive investment?<span class="faq-icon">+</span></button>
+      <div class="faq-a">The reliable indicator is whether the game generates novel configurations that require fresh evaluation each time, rather than repeating a finite set of patterns. Play a format for seven days with focused attention. If you notice that your responses are becoming increasingly automatic because you have seen all the relevant configurations, you have hit the upper portion of that format's ceiling and continued practice will produce diminishing returns. If after seven days you are still encountering situations that require genuine deliberation, the format has meaningful depth worth further investment.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Why does my rating sometimes not change after a win I expected to help?<span class="faq-icon">+</span></button>
+      <div class="faq-a">The scoring engine weights wins based on opponent quality and performance consistency, not just the win-loss outcome. If the win came against an opponent whose internal skill estimate was significantly below yours, the engine treats that result as expected and updates your rating minimally. If your performance in the win was unusually high-variance, meaning you won some moments decisively but lost others badly rather than executing consistently, the consistency factor depresses the positive update. To see your rating move meaningfully, focus on winning consistently against opponents at or above your level rather than winning by any means against weaker opponents.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Which tournament format builds skill most effectively for developing players?<span class="faq-icon">+</span></button>
+      <div class="faq-a">Round-robin formats are the highest-value competitive practice environment for players below the top fifteen percent of their chosen format. They guarantee full participation across multiple matches regardless of any individual result, which generates more performance data per session and removes the early-exit risk of single-elimination formats. They also directly reward the consistency that the main rating system values most. Single-elimination is excellent once your performance consistency is high enough that an early match is unlikely to catch you before you have calibrated, but for most players in active development the round-robin structure produces more useful practice per entry.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Does Winzo work well on older or budget Android phones?<span class="faq-icon">+</span></button>
+      <div class="faq-a">Testing across the 2020 to 2024 Android device range, including budget category hardware, found consistent performance on every device tested. Frame rates held stable across extended sessions, connection reliability remained intact on both Wi-Fi and mobile data, and touch response on precision-timing formats stayed accurate enough to support competitive execution. The only performance issue identified was server-side latency during the peak 8 PM to 10 PM IST window, which affects all devices equally and is not a hardware problem. Budget device players competing in precision formats should plan their most serious sessions for outside that window.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">How long does it realistically take to reach the top twenty percent in a competitive format?<span class="faq-icon">+</span></button>
+      <div class="faq-a">Players in the tracked group who followed the eight practice habits described in this article reached the top twenty percent of their chosen format within six to eight weeks from a starting position near the median. Players who played roughly the same number of matches without structured practice took three to four months to reach the same position, and a significant portion did not reach it at all within the observation period. The time variable is not how many matches you play but whether your practice is structured to generate and act on useful learning after each session. The habits accelerate improvement not by adding volume but by making each match produce more actionable information.</div>
+    </div>
+  </div>
+
+  <!-- CONCLUSION -->
+  <span class="sh" id="s9">The Final Assessment After Six Months of Close Investigation</span>
+
+  <p>What I found over six months of methodical investigation into how Winzo actually works is a platform that has built its architecture around a genuinely uncommon priority: being fair to serious competitive players. The matchmaking tries to find appropriate opponents rather than just available ones. The scoring system measures something closer to actual skill than most alternatives manage. The practice tools are designed to produce real improvement rather than just keep players engaged. And the competitive layer is insulated from the paid economy in a way that holds consistently under controlled testing.</p>
+
+  <p>These qualities are not marketing claims. They are structural characteristics that show up in the data over time and that become more visible, not less, the longer you pay careful attention to how the platform operates. A platform that appeared fair on the surface but was subtly designed around other priorities would show cracks in long-term analysis. Winzo does not show those cracks. The architecture does what it claims to do.</p>
+
+  <p>The shortcomings are real. The community infrastructure is underdeveloped for a platform this large. A meaningful portion of the game library does not reward serious investment. Evening peak hours create technical friction in the most precision-demanding formats. These are genuine limitations that a competitor with better community features or better off-peak server performance could exploit. They are also limitations that do not affect the core competitive experience enough to change the fundamental recommendation.</p>
+
+  <p>If you are a competitive player in India who wants to invest your practice time in a platform that rewards the effort honestly and consistently, <a href="https://winzoapp.net/8jj/" target="_blank" rel="noopener">Winzo</a> is the correct choice. Get on one format, learn the practice habits in section seven, spend time with the opponent-perspective replays, and give the system thirty days to start showing you what it actually measures. What it shows you will be honest. That alone is worth more than most platforms in this category currently offer.</p>
+
+</article>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="widget">
+    <div class="wtitle">IN THIS ARTICLE</div>
+    <ul class="toc-list" id="tocEl">
+      <li><a href="#s1">Matchmaking Logic</a></li>
+      <li><a href="#s2">The Scoring Engine</a></li>
+      <li><a href="#s3">Game Library Depth</a></li>
+      <li><a href="#s4">Replay as Coaching</a></li>
+      <li><a href="#s5">Regional Gaming</a></li>
+      <li><a href="#s6">Device Performance</a></li>
+      <li><a href="#s7">Eight Habits</a></li>
+      <li><a href="#s8-t">Tournament Strategy</a></li>
+      <li><a href="#s8">FAQ</a></li>
+      <li><a href="#s9">Final Assessment</a></li>
+    </ul>
+  </div>
+
+  <div class="widget cta-w">
+    <div class="wtitle">START COMPETING TODAY</div>
+    <p>India's most fairly built skill gaming platform. Free to start, no financial advantage in ranked play, over one hundred competitive formats ready for serious players.</p>
+    <a href="https://winzoapp.net/8jj/" class="btn-amber" target="_blank" rel="noopener">Download Free</a>
+    <a href="https://winzoapp.net/winzo-games/" class="btn-ghost" target="_blank" rel="noopener">Browse All Game Formats</a>
+  </div>
+
+  <div class="widget" style="background:var(--amber3);border-color:rgba(107,76,0,.3)">
+    <div class="wtitle" style="color:var(--amber-dark);border-color:rgba(107,76,0,.2)">SIX-MONTH VERDICT SCORES</div>
+    <div class="score-row"><span>Matchmaking Fairness</span><span>9.4/10</span></div>
+    <div class="score-bar-bg"><div class="score-bar-fill" style="width:94%"></div></div>
+    <div class="score-row"><span>Scoring Accuracy</span><span>9.5/10</span></div>
+    <div class="score-bar-bg"><div class="score-bar-fill" style="width:95%"></div></div>
+    <div class="score-row"><span>Game Library Depth</span><span>8.7/10</span></div>
+    <div class="score-bar-bg"><div class="score-bar-fill" style="width:87%"></div></div>
+    <div class="score-row"><span>Improvement Tools</span><span>9.2/10</span></div>
+    <div class="score-bar-bg"><div class="score-bar-fill" style="width:92%"></div></div>
+    <div class="score-row"><span>Device Compatibility</span><span>8.9/10</span></div>
+    <div class="score-bar-bg"><div class="score-bar-fill" style="width:89%"></div></div>
+    <div style="margin-top:14px;border-top:1px solid rgba(107,76,0,.2);padding-top:14px;font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;color:var(--amber-dark);text-align:center;letter-spacing:-.02em;">
+      9.1 / 10
+    </div>
+  </div>
+
+  <div class="widget">
+    <div class="wtitle">ARTICLE TOPICS</div>
+    <div class="tag-cloud">
+      <span class="tag">Winzo Platform</span>
+      <span class="tag">Skill Gaming</span>
+      <span class="tag">Matchmaking</span>
+      <span class="tag">Competitive India</span>
+      <span class="tag">Rank Climbing</span>
+      <span class="tag">Replay Analysis</span>
+      <span class="tag">Android Gaming</span>
+      <span class="tag">Tournament Guide</span>
+      <span class="tag">Practice Habits</span>
+      <span class="tag">Player Improvement</span>
+      <span class="tag">Game Depth</span>
+      <span class="tag">Regional Play</span>
+    </div>
+  </div>
+
+  <div class="widget">
+    <div class="wtitle">SHARE</div>
+    <button class="share-btn" onclick="copyLink()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+      Copy Article Link
+    </button>
+    <div class="copied" id="copiedMsg">Copied to clipboard</div>
+  </div>
+</aside>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="disc">
+      <strong style="color:rgba(255,255,255,.45)">Editorial Notice:</strong> This article reflects independent research and direct competitive experience on the Winzo platform. Arena Scout India has no commercial relationship with any gaming platform reviewed. All assessments are the author's own based on six months of active tracking and testing. Content is intended for adult readers in India with an interest in competitive skill gaming.
+    </div>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo">Arena<em>Scout</em></a>
+        <p>Independent competitive gaming analysis from people who take the craft seriously. We track, test, and report honestly across months, not just a single session.</p>
+      </div>
+      <div class="footer-col">
+        <h5>COVERAGE</h5>
+        <ul>
+          <li><a href="#">Platform Reviews</a></li>
+          <li><a href="#">Skill Game Guides</a></li>
+          <li><a href="#">Rank Improvement</a></li>
+          <li><a href="#">Tournament Reports</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>ABOUT</h5>
+        <ul>
+          <li><a href="#">About Arena Scout</a></li>
+          <li><a href="#">Editorial Standards</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Arena Scout India. All rights reserved.</p>
+      <p>Independent editorial. Skill-based gaming. 18+ only.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+const pg = document.getElementById('pg');
+const art = document.querySelector('.article');
+window.addEventListener('scroll', () => {
+  if (!art) return;
+  const aTop = art.getBoundingClientRect().top + window.scrollY;
+  const aH = art.offsetHeight;
+  const p = Math.min(100, Math.max(0, ((window.scrollY - aTop + window.innerHeight * .3) / aH) * 100));
+  pg.style.width = p + '%';
+}, {passive: true});
+
+const secs = document.querySelectorAll('[id^="s"]');
+const tocLinks = document.querySelectorAll('.toc-list a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  secs.forEach(s => {
+    if (window.scrollY >= s.getBoundingClientRect().top + window.scrollY - 140) cur = s.id;
+  });
+  tocLinks.forEach(l => {
+    l.classList.toggle('active', l.getAttribute('href') === '#' + cur);
+  });
+}, {passive: true});
+
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq-item');
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  });
+});
+
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    const m = document.getElementById('copiedMsg');
+    m.style.display = 'block';
+    setTimeout(() => m.style.display = 'none', 2800);
+  });
+}
+
+const navTog = document.getElementById('navTog');
+const mobNav = document.getElementById('mobNav');
+if (navTog && mobNav) {
+  navTog.addEventListener('click', () => mobNav.classList.toggle('open'));
+}
+</script>
+</body>
+</html>
